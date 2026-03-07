@@ -1,0 +1,52 @@
+# ============================================================
+# Remote Backend 配置示例（S3 + DynamoDB）
+# 注意：这是示例文件，不会被 terraform 加载（.example 后缀）
+# 真实使用时重命名为 backend.tf，并填入实际的 bucket 名称
+# ============================================================
+
+terraform {
+  backend "s3" {
+    bucket         = "your-terraform-state-bucket"   # S3 bucket 名称
+    key            = "okj-study/03-state/terraform.tfstate"
+    region         = "ap-northeast-1"
+    encrypt        = true  # 加密存储
+
+    # DynamoDB 表用于 state 锁，防止并发写入
+    dynamodb_table = "terraform-state-lock"
+  }
+}
+
+# ============================================================
+# 创建上述 S3 bucket 和 DynamoDB 表的配置（bootstrap 用）
+# 通常单独放在 bootstrap/ 目录，第一次手动执行
+# ============================================================
+
+# resource "aws_s3_bucket" "terraform_state" {
+#   bucket = "your-terraform-state-bucket"
+# }
+#
+# resource "aws_s3_bucket_versioning" "terraform_state" {
+#   bucket = aws_s3_bucket.terraform_state.id
+#   versioning_configuration {
+#     status = "Enabled"
+#   }
+# }
+#
+# resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state" {
+#   bucket = aws_s3_bucket.terraform_state.id
+#   rule {
+#     apply_server_side_encryption_by_default {
+#       sse_algorithm = "AES256"
+#     }
+#   }
+# }
+#
+# resource "aws_dynamodb_table" "terraform_lock" {
+#   name         = "terraform-state-lock"
+#   billing_mode = "PAY_PER_REQUEST"
+#   hash_key     = "LockID"
+#   attribute {
+#     name = "LockID"
+#     type = "S"
+#   }
+# }
