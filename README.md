@@ -47,7 +47,16 @@ terraform version
 
 # 本课程大部分实验使用 local / random / null provider
 # 无需 AWS 账号即可完成 Phase 1-4
-# Phase 5 可选：配置 AWS CLI 体验真实云资源
+# Phase 5 可选：使用 LocalStack 模拟 AWS 环境（推荐），或配置真实 AWS CLI
+
+# 安装 LocalStack（模拟 AWS，无需真实账号）
+brew install localstack/tap/localstack-cli
+
+# 启动 LocalStack（-d 表示后台运行）
+localstack start -d
+
+# 验证服务状态
+localstack status services
 ```
 
 ---
@@ -173,6 +182,68 @@ terraform version
 
 ---
 
+## LocalStack 使用指南
+
+LocalStack 在本地模拟 AWS 服务（S3、DynamoDB、SQS、Lambda 等），无需真实 AWS 账号。
+
+### 安装与启动
+
+```bash
+# 安装
+brew install localstack/tap/localstack-cli
+
+# 后台启动
+localstack start -d
+
+# 查看服务状态
+localstack status services
+
+# 停止
+localstack stop
+```
+
+### 在 Terraform 中使用
+
+配置 AWS provider 指向本地端点：
+
+```hcl
+provider "aws" {
+  region                      = "us-east-1"
+  access_key                  = "test"   # 随意填，LocalStack 不校验
+  secret_key                  = "test"
+  skip_credentials_validation = true
+  skip_metadata_api_check     = true
+  skip_requesting_account_id  = true
+
+  endpoints {
+    s3       = "http://localhost:4566"
+    dynamodb = "http://localhost:4566"
+    sqs      = "http://localhost:4566"
+    lambda   = "http://localhost:4566"
+  }
+}
+```
+
+### 验证资源创建
+
+```bash
+# 安装 awslocal（awscli 的 LocalStack 封装）
+pip install awscli-local
+
+# 示例：查看 S3 bucket
+awslocal s3 ls
+
+# 示例：查看 SQS 队列
+awslocal sqs list-queues
+```
+
+### 支持的服务
+
+S3、DynamoDB、SQS、SNS、Lambda、IAM、EC2、Kinesis 等主流服务均支持。
+完整列表见：https://docs.localstack.cloud/references/coverage/
+
+---
+
 ## 知识图谱
 
 ```
@@ -207,3 +278,4 @@ Terraform
 - 官方文档：https://developer.hashicorp.com/terraform/docs
 - Terraform Registry：https://registry.terraform.io
 - Learn Terraform（官方互动教程）：https://developer.hashicorp.com/terraform/tutorials
+- LocalStack（模拟 AWS 本地环境）：https://github.com/localstack/localstack

@@ -1,0 +1,14 @@
+# Provider 插件（体积大，init 时自动下载）
+.terraform/
+
+# 状态文件
+terraform.tfstate
+terraform.tfstate.backup
+
+# 变量文件（可能含密码等敏感信息）
+*.tfvars
+*.tfvars.json
+
+# 崩溃日志
+crash.log
+crash.*.log
