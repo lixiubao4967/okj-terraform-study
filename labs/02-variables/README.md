@@ -111,7 +111,26 @@ variable "db_password" {
 }
 ```
 
-在 `main.tf` 中使用它，在 `outputs.tf` 中输出它，然后执行：
+在 `main.tf` 中使用它：
+
+```hcl
+resource "local_file" "db_config" {
+  filename = "/tmp/${local.name_prefix}-db.txt"
+  content  = "password = ${var.db_password}"
+}
+```
+
+在 `outputs.tf` 中输出它：
+
+```hcl
+output "db_password" {
+  description = "数据库密码"
+  value       = var.db_password
+  sensitive   = true
+}
+```
+
+然后执行：
 
 ```bash
 terraform plan    # 观察密码是否被隐藏

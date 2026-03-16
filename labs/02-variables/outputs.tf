@@ -46,3 +46,9 @@ output "port_config_files" {
   description = "端口配置文件列表"
   value       = [for f in local_file.port_config : f.filename]
 }
+
+output "db_password" {
+  description = "数据库密码"
+  value       = var.db_password
+  sensitive   = true
+}
