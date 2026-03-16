@@ -14,6 +14,10 @@ variable "environment" {
   default     = "dev"
 
   # 任务 3：在这里添加 validation 块
+  validation {
+    condition     = contains(["dev", "staging", "prod"], var.environment)
+    error_message = "environment 只能是 dev、staging 或 prod。"
+  }
 }
 
 variable "instance_count" {
@@ -74,4 +78,10 @@ variable "users" {
     { name = "alice", role = "developer", admin = false },
     { name = "bob", role = "ops", admin = true },
   ]
+}
+
+variable "db_password" {
+  type      = string
+  sensitive = true
+  default   = "super-secret-123"
 }

@@ -42,3 +42,8 @@ resource "local_file" "port_config" {
   filename = "/tmp/${local.name_prefix}-port-${var.allowed_ports[count.index]}.txt"
   content  = "Port ${var.allowed_ports[count.index]} is allowed in ${var.environment}"
 }
+
+resource "local_file" "db_config" {
+  filename = "/tmp/${local.name_prefix}-db.txt"
+  content  = "password = ${var.db_password}"
+}

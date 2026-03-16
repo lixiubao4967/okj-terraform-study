@@ -111,7 +111,16 @@ variable "db_password" {
 }
 ```
 
-在 `main.tf` 中使用它，在 `outputs.tf` 中输出它，观察：
+在 `main.tf` 中使用它，在 `outputs.tf` 中输出它，然后执行：
+
+```bash
+terraform plan    # 观察密码是否被隐藏
+terraform apply   # 必须先 apply，output 才能从 state 中读取
+terraform output db_password
+terraform output -json
+```
+
+观察：
 - `terraform plan` 中密码是否被隐藏？
 - `terraform output db_password` 的行为？
 - `terraform output -json` 呢？
