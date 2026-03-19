@@ -9,7 +9,7 @@ terraform {
 }
 
 provider "aws" {
-  region                      = "us-east-1"
+  region                      = "ap-northeast-1"
   access_key                  = "fake"
   secret_key                  = "fake"
   skip_credentials_validation = true
@@ -21,4 +21,6 @@ provider "aws" {
     iam      = "http://localhost:4566"
     dynamodb = "http://localhost:4566"
   }
+
+  s3_use_path_style = true
 }
