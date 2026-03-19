@@ -8,6 +8,16 @@ output "frontend_app_id" {
   value       = module.frontend_app.app_id
 }
 
+output "backend_config_path" {
+  description = "Backend 配置文件路径"
+  value       = module.backend_app.config_file_path
+}
+
+output "backend_app_id" {
+  description = "Backend 应用 ID"
+  value       = module.backend_app.app_id
+}
+
 output "user_count" {
   description = "用户总数"
   value       = module.users.user_count

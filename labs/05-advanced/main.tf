@@ -81,16 +81,16 @@ resource "local_file" "app_config_from_template" {
 resource "random_id" "stable_id" {
   byte_length = 8
 
-  # lifecycle {
+   lifecycle {
   #   # 测试 1：防止误删
   #   prevent_destroy = true
   #
   #   # 测试 2：忽略某字段变化
-  #   ignore_changes = [keepers]
+     ignore_changes = [keepers]
   #
   #   # 测试 3：先创建后删除（避免停机）
   #   create_before_destroy = true
-  # }
+   }
 }
 
 resource "local_file" "lifecycle_demo" {

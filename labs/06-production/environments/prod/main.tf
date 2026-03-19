@@ -2,7 +2,7 @@ module "frontend" {
   source         = "../../modules/web-service"
   service_name   = "frontend"
   environment    = "prod"
-  instance_count = 3   # prod 多实例
+  instance_count = 3 # prod 多实例
   log_level      = "warn"
 }
 

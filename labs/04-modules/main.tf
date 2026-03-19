@@ -7,7 +7,7 @@
 module "frontend_app" {
   source         = "./modules/app-config"
   app_name       = "frontend"
-  environment    = "dev"
+  environment    = "staging"
   instance_count = 2
   extra_config = {
     framework = "react"
@@ -15,17 +15,17 @@ module "frontend_app" {
   }
 }
 
-# 任务 3：取消注释，添加 backend 应用
-# module "backend_app" {
-#   source         = "./modules/app-config"
-#   app_name       = "backend"
-#   environment    = "dev"
-#   instance_count = 1
-#   extra_config = {
-#     framework = "express"
-#     port      = "3000"
-#   }
-# }
+# 任务 3：多次实例化同一模块
+module "backend_app" {
+  source         = "./modules/app-config"
+  app_name       = "backend"
+  environment    = "staging"
+  instance_count = 1
+  extra_config = {
+    framework = "express"
+    port      = "3000"
+  }
+}
 
 # 调用 user-manager 模块
 module "users" {

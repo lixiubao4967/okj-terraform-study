@@ -1,7 +1,8 @@
 variable "servers_count" {
   type        = list(string)
   description = "服务列表（用于演示 count vs for_each）"
-  default     = ["web", "api", "worker"]
+  #default     = ["web", "api", "worker"]
+  default     = ["api", "worker"]
 }
 
 variable "ingress_rules" {
@@ -12,6 +13,7 @@ variable "ingress_rules" {
   }))
   description = "入站规则列表（用于演示 dynamic 块）"
   default = [
+    { port = 22,   protocol = "tcp", desc = "ssh" },
     { port = 80,   protocol = "tcp", desc = "HTTP" },
     { port = 443,  protocol = "tcp", desc = "HTTPS" },
     { port = 8080, protocol = "tcp", desc = "App Port" },
